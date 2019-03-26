@@ -806,7 +806,18 @@ public class PythonAbstractConnexionServerCodegen extends DefaultCodegen impleme
             if (!"".equals(modelPackage())) {
                 modelImport += modelPackage() + ".";
             }
-            modelImport += toModelFilename(name) + " import " + name;
+
+            String modelFile = toModelFilename(name);
+
+            if (!StringUtils.isEmpty(modelNamePrefix)) {
+                modelFile = modelFile.replaceAll("^" + modelNamePrefix.toLowerCase(Locale.ROOT), "");
+            }
+
+            if (!StringUtils.isEmpty(modelNameSuffix)) {
+                modelFile = modelFile.replaceAll(modelNameSuffix.toLowerCase(Locale.ROOT) + "$", "");
+            }
+
+            modelImport += modelFile + " import " + name;
         }
         return modelImport;
     }
